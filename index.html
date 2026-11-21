@@ -184,4 +184,917 @@
     <!-- ===================================================================== -->
     <!-- ÉCRAN 2 : APPLICATION PRINCIPALE                                      -->
     <!-- ===================================================================== -->
-    <div id="app-shell" class="hidden min-
+    <div id="app-shell" class="hidden min-h-screen flex flex-col lg:flex-row">
+
+        <!-- BARRE SUPÉRIEURE MOBILE -->
+        <header class="lg:hidden glass-panel border-b border-slate-800 p-4 flex items-center justify-between sticky top-0 z-30">
+            <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-dragon text-amber-400 text-xl"></i>
+                <span class="font-display font-bold text-white tracking-wider">AKOYA SW</span>
+            </div>
+            <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg bg-slate-800 text-slate-200 hover:text-amber-400">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+        </header>
+
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-obsidian border-r border-slate-800/90 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto transition-transform duration-200 flex flex-col justify-between">
+            <div>
+                <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-purple-600 flex items-center justify-center shadow-md">
+                            <i class="fa-solid fa-dragon text-obsidian text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-display font-bold text-white text-lg leading-tight">AKOYA SW</h2>
+                            <span class="text-[11px] font-medium text-amber-400 flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> G2/G3 • Discord Sync
+                            </span>
+                        </div>
+                    </div>
+                    <button onclick="toggleMobileSidebar()" class="lg:hidden text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <div class="p-4 mx-3 mt-3 rounded-xl bg-slate-900/90 border border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <div id="user-avatar" class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white text-sm">
+                                DL
+                            </div>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-slate-900"></span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div id="user-name" class="text-sm font-bold text-white truncate">DeicideL</div>
+                            <div id="user-role-badge" class="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded mt-0.5">
+                                <i class="fa-solid fa-crown text-[10px]"></i> Officier / Chef
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-240px)]">
+                    <div class="px-3 pt-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Commandement & Discord</div>
+                    <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-amber-500/15 text-amber-400 border border-amber-500/30 transition-all">
+                        <i class="fa-solid fa-gauge-high w-5 text-center"></i> Dashboard & Discord
+                    </button>
+                    <button onclick="switchTab('guild-wars')" data-tab="guild-wars" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+                        <i class="fa-solid fa-chess-rook w-5 text-center"></i> Combats 3DMC & Contres
+                    </button>
+                    <button onclick="switchTab('activity')" data-tab="activity" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+                        <i class="fa-solid fa-chart-line w-5 text-center"></i> Activité & Ressources
+                    </button>
+
+                    <div class="px-3 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Vie de Guilde & Stratégie</div>
+                    <button onclick="switchTab('organization')" data-tab="organization" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+                        <i class="fa-solid fa-calendar-check w-5 text-center"></i> Organisation & Absences
+                    </button>
+                    <button onclick="switchTab('tools')" data-tab="tools" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+                        <i class="fa-solid fa-stopwatch w-5 text-center"></i> Speedtune & Hall of Fame
+                    </button>
+                    <button onclick="switchTab('economy')" data-tab="economy" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+                        <i class="fa-solid fa-gem w-5 text-center"></i> Entraide, SD & Vitrine
+                    </button>
+
+                    <div class="px-3 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Avancé & Services</div>
+                    <button onclick="switchTab('gamification')" data-tab="gamification" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+                        <i class="fa-solid fa-trophy w-5 text-center"></i> Tournois RTA & Badges
+                    </button>
+                    <button onclick="switchTab('json-analyzer')" data-tab="json-analyzer" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all">
+                        <i class="fa-solid fa-microchip w-5 text-center"></i> Analyseur JSON (SWEX)
+                    </button>
+                    <button onclick="switchTab('vip-services')" data-tab="vip-services" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-purple-300 hover:text-white hover:bg-purple-900/30 border border-purple-500/20 mt-2 transition-all">
+                        <i class="fa-solid fa-crown w-5 text-center text-amber-400"></i> Services VIP & Coaching
+                    </button>
+                </nav>
+            </div>
+
+            <div class="p-4 border-t border-slate-800/80">
+                <button onclick="logout()" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-red-950/50 text-slate-400 hover:text-red-400 border border-slate-800 hover:border-red-500/30 text-xs font-semibold transition-all">
+                    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion Discord
+                </button>
+            </div>
+        </aside>
+
+        <!-- ZONE DE CONTENU PRINCIPAL -->
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+
+            <!-- ONGLET 1 : DASHBOARD & DISCORD -->
+            <section id="tab-dashboard" class="tab-content space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Quartier Général Akoya</h1>
+                        <p class="text-sm text-slate-400 mt-1">Synchronisation Discord, état du Siège 3DMC et alertes de guilde.</p>
+                    </div>
+                    <span class="px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center gap-2 self-start">
+                        <i class="fa-brands fa-discord"></i> Bot Akoya#8842 : En ligne
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="glass-panel rounded-2xl p-5 gold-glow">
+                        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                            <span>Siège (3DMC) en cours</span>
+                            <i class="fa-solid fa-chess-rook text-amber-400 text-base"></i>
+                        </div>
+                        <div class="text-2xl font-bold text-white mt-2">15 420 pts</div>
+                        <div class="text-xs text-emerald-400 mt-1 flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-trend-up"></i> 1er (+180 pts/min) • 11 tours
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-5">
+                        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                            <span>Épées restantes</span>
+                            <i class="fa-solid fa-khanda text-purple-400 text-base"></i>
+                        </div>
+                        <div class="text-2xl font-bold text-white mt-2">68 / 250</div>
+                        <div class="text-xs text-amber-400 mt-1">23 membres actifs • Fin dans 05h 42m</div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-5">
+                        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                            <span>Labyrinthe</span>
+                            <i class="fa-solid fa-compass text-cyan-400 text-base"></i>
+                        </div>
+                        <div class="text-2xl font-bold text-white mt-2">Rang SSS</div>
+                        <div class="text-xs text-slate-400 mt-1">Boss Tartaros vaincu (Enfer)</div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-5">
+                        <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
+                            <span>Effectif & Absences</span>
+                            <i class="fa-solid fa-user-shield text-emerald-400 text-base"></i>
+                        </div>
+                        <div class="text-2xl font-bold text-white mt-2">25 / 25</div>
+                        <div id="kpi-absences" class="text-xs text-slate-400 mt-1">2 absences déclarées</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 glass-panel rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-[#5865F2]/20 text-[#5865F2] flex items-center justify-center text-xl">
+                                    <i class="fa-brands fa-discord"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white text-base">Intégration Discord OAuth2 & Webhooks</h3>
+                                    <p class="text-xs text-slate-400">Contrôle des rôles et notifications automatiques.</p>
+                                </div>
+                            </div>
+                            <span id="admin-lock-badge" class="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                                Mode Officier Actif
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Discord Server (Guild ID)</label>
+                                <input type="text" id="discord-guild-id" value="849201948271048291" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white font-mono focus:border-amber-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">ID du Rôle Autorisé (@Membre-Akoya)</label>
+                                <input type="text" id="discord-role-id" value="984120948120" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-amber-400 font-mono focus:border-amber-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">URL du Webhook Discord (#alertes-guilde)</label>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input type="text" id="discord-webhook-url" value="https://discord.com/api/webhooks/12948192048/akoya-sw-secret-token" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-300 font-mono focus:border-amber-500 focus:outline-none">
+                                <button onclick="testDiscordWebhook()" class="px-4 py-2 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shrink-0">
+                                    <i class="fa-solid fa-paper-plane"></i> Tester Webhook
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer">
+                                <input type="checkbox" checked class="accent-amber-500 w-4 h-4">
+                                <span class="text-xs text-slate-300">Alerte Focus Siège 3DMC</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer">
+                                <input type="checkbox" checked class="accent-amber-500 w-4 h-4">
+                                <span class="text-xs text-slate-300">Nouveau Contre ajouté</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer">
+                                <input type="checkbox" checked class="accent-amber-500 w-4 h-4">
+                                <span class="text-xs text-slate-300">Déclaration d'absence</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col">
+                        <h3 class="font-bold text-white text-base mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-satellite-dish text-emerald-400"></i> Flux Webhook & Logs
+                        </h3>
+                        <div id="discord-feed" class="space-y-3 overflow-y-auto max-h-64 pr-1 text-xs flex-1">
+                            <div class="p-3 rounded-xl bg-slate-900/90 border-l-2 border-amber-500">
+                                <div class="flex justify-between text-slate-500 mb-1">
+                                    <span class="font-semibold text-amber-400">#annonces-siege</span>
+                                    <span>Il y a 12 min</span>
+                                </div>
+                                <p class="text-slate-300">🎯 <strong>DeicideL</strong> a marqué la <strong>Tour 7 (5★)</strong> en cible prioritaire !</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/90 border-l-2 border-purple-500">
+                                <div class="flex justify-between text-slate-500 mb-1">
+                                    <span class="font-semibold text-purple-400">#base-de-contres</span>
+                                    <span>Il y a 1h</span>
+                                </div>
+                                <p class="text-slate-300">⚔️ Nouveau contre validé contre <strong>Byungchul / Camilla / Adriana</strong> (94% WR).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 2 : COMBATS DE GUILDE (CARTE SIÈGE 3DMC & CONTRES) -->
+            <section id="tab-guild-wars" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Combats de Guilde (3DMC & GvG)</h1>
+                        <p class="text-sm text-slate-400 mt-1">Cliquez sur une tour pour basculer le Focus et consultez les contres validés.</p>
+                    </div>
+                    <button onclick="exportSiegePlan()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-obsidian font-bold text-xs flex items-center gap-2 transition-all self-start">
+                        <i class="fa-brands fa-discord"></i> Publier le Plan de Focus sur Discord
+                    </button>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-map-location-dot text-amber-400"></i> Carte d'Occupation (Bastion Bleu — Akoya)
+                        </h3>
+                        <div class="flex items-center gap-4 text-xs">
+                            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-purple-500/40 border border-purple-400"></span> Tour 5★</span>
+                            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-cyan-500/40 border border-cyan-400"></span> Tour 4★</span>
+                            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border-2 border-amber-400"></span> Cible Focus</span>
+                        </div>
+                    </div>
+                    <div id="siege-map-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 glass-panel rounded-2xl p-6 space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <h3 class="font-bold text-white text-lg">Base de Données de Contres</h3>
+                            <input type="text" id="counter-search" oninput="renderCounters()" placeholder="Filtrer par défense ou contre..." class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:border-amber-500 focus:outline-none">
+                        </div>
+                        <div id="counters-list" class="space-y-3"></div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-6 space-y-3 h-fit">
+                        <h3 class="font-bold text-white text-base">Ajouter un Contre Validé</h3>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Défense adverse</label>
+                            <input type="text" id="new-def" placeholder="Ex: Clara / Savanna / Kinki" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Équipe d'attaque</label>
+                            <input type="text" id="new-off" placeholder="Ex: Leo / Feng Yan / Riley" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Winrate (%)</label>
+                                <input type="number" id="new-wr" value="90" min="0" max="100" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Note / Speedtune</label>
+                                <input type="text" id="new-note" placeholder="Will + 100% res" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none">
+                            </div>
+                        </div>
+                        <button onclick="addCounter()" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs transition-all">
+                            <i class="fa-solid fa-plus mr-1"></i> Enregistrer le Contre
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 3 : ACTIVITÉ & RESSOURCES INTERNES -->
+            <section id="tab-activity" class="tab-content hidden space-y-6">
+                <div>
+                    <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Suivi d'Activité & Ressources</h1>
+                    <p class="text-sm text-slate-400 mt-1">Participation hebdomadaire Siège/GvG, Labyrinthe et ressources utiles.</p>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 overflow-x-auto">
+                    <h3 class="font-bold text-white text-lg mb-4">Assiduité des Membres (Semaine en cours)</h3>
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 uppercase">
+                                <th class="py-3 px-2">Membre</th>
+                                <th class="py-3 px-2">Rôle</th>
+                                <th class="py-3 px-2">Épées Siège</th>
+                                <th class="py-3 px-2">Labyrinthe</th>
+                                <th class="py-3 px-2">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activity-table-body" class="divide-y divide-slate-800/70"></tbody>
+                    </table>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6">
+                    <h3 class="font-bold text-white text-lg mb-3">Ressources & Guides de Référence</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                            <div class="font-bold text-amber-400 mb-1">Optimisation de Runes (SWOP)</div>
+                            <p class="text-slate-400">Calcul des sets Vio/Will, speedtunes et dégâts ciblés à partir de l'export SWEX.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                            <div class="font-bold text-purple-400 mb-1">Donjons Abysses & R5</div>
+                            <p class="text-slate-400">Équipes stables et speed-teams validées pour Géant, Dragon, Nécro et Raid 5.</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                            <div class="font-bold text-cyan-400 mb-1">Artéfacts & Meules/Gemmes</div>
+                            <p class="text-slate-400">Priorités de subs (Dégâts vs S1/S2/S3/S4, Add dmg by Spd/HP) et gestion du stock.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 4 : ORGANISATION & ABSENCES -->
+            <section id="tab-organization" class="tab-content hidden space-y-6">
+                <div>
+                    <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Organisation & Vie de Guilde</h1>
+                    <p class="text-sm text-slate-400 mt-1">Déclaration d'absences, coaching et préparation du Free Rune Removal (FRR).</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="glass-panel rounded-2xl p-6 space-y-3 h-fit">
+                        <h3 class="font-bold text-white text-base">Déclarer une Absence</h3>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Pseudo</label>
+                            <input type="text" id="abs-member" value="DeicideL" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Période</label>
+                            <input type="text" id="abs-dates" placeholder="Ex: 23 Nov - 26 Nov" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Motif</label>
+                            <input type="text" id="abs-reason" placeholder="Ex: Déplacement pro / Examens" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none">
+                        </div>
+                        <button onclick="addAbsence()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-obsidian font-bold text-xs transition-all">
+                            Enregistrer l'Absence
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-2 glass-panel rounded-2xl p-6 space-y-4">
+                        <h3 class="font-bold text-white text-lg">Absences Enregistrées</h3>
+                        <div id="absences-list" class="space-y-2.5 text-xs"></div>
+
+                        <div class="pt-4 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                                <div class="font-bold text-emerald-400 mb-1">Mentors & Coaching</div>
+                                <p class="text-slate-400">DeicideL (3DMC / Box) • Lyra_Akoya (RTA / Draft) • Kaelen (Donjons / R5)</p>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+                                <div class="font-bold text-amber-400 mb-1">Priorités FRR</div>
+                                <p class="text-slate-400">1. Sets Rapides/Will clefs • 2. Défs 3DMC • 3. Box RTA & PvE</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 5 : SPEEDTUNE & HALL OF FAME -->
+            <section id="tab-tools" class="tab-content hidden space-y-6">
+                <div>
+                    <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Outils Stratégiques & Hall of Fame</h1>
+                    <p class="text-sm text-slate-400 mt-1">Vérification rapide de non-cut et archives des performances d'Akoya.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-panel rounded-2xl p-6 space-y-4">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-stopwatch text-amber-400"></i> Calculateur Speedtune Rapide
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <label class="block text-slate-400 mb-1">Vitesse Base Booster (ex: Tiana/Kabilla)</label>
+                                <input type="number" id="st-base-spd" value="96" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Bonus Vitesse Booster (+Spd)</label>
+                                <input type="number" id="st-bonus-spd" value="215" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Lead Vitesse (%)</label>
+                                <input type="number" id="st-lead" value="24" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Boost ATB (%)</label>
+                                <input type="number" id="st-atb" value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white">
+                            </div>
+                        </div>
+                        <button onclick="calcSpeedtune()" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs">
+                            Calculer la Vitesse Cible Nuke / Breaker
+                        </button>
+                        <div id="speedtune-result" class="p-4 rounded-xl bg-slate-900 border border-amber-500/30 text-xs text-slate-200">
+                            Cliquez sur calculer pour obtenir la vitesse totale recommandée (avec totem guilde +15% inclus).
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-6 space-y-3">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-award text-amber-400"></i> Hall of Fame — Akoya
+                        </h3>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-white">Saison Siège #18</div>
+                                    <div class="text-slate-400">Classement final serveur Europe</div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-bold">Top 25 G3</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-white">Record Labyrinthe Tartaros</div>
+                                    <div class="text-slate-400">Clear complet en 38 heures</div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-300 font-bold">Rang SSS</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex justify-between items-center">
+                                <div>
+                                    <div class="font-bold text-white">MVP Contribution 3DMC</div>
+                                    <div class="text-slate-400">Meilleur ratio victoires/épées</div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold">DeicideL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 6 : ENTRAIDE, SD & VITRINE -->
+            <section id="tab-economy" class="tab-content hidden space-y-6">
+                <div>
+                    <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Entraide, Donjons Secrets & Vitrine</h1>
+                    <p class="text-sm text-slate-400 mt-1">Partage de SD en cours et builds de référence des membres.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-panel rounded-2xl p-6 space-y-3">
+                        <h3 class="font-bold text-white text-lg">Donjons Secrets (SD) Actifs</h3>
+                        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex justify-between items-center text-xs">
+                            <div>
+                                <div class="font-bold text-cyan-300">SD Kro (Inugami Noir) — Trouvé par Lyra_Akoya</div>
+                                <div class="text-slate-400">Temps restant : ~42 min • Ajouter en ami IG</div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400 font-semibold">Actif</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex justify-between items-center text-xs">
+                            <div>
+                                <div class="font-bold text-amber-300">SD Belladeon (Inugami Lumière) — Trouvé par Kaelen</div>
+                                <div class="text-slate-400">Temps restant : ~18 min • Ajouter en ami IG</div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-amber-500/15 text-amber-400 font-semibold">Urgent</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-6 space-y-3">
+                        <h3 class="font-bold text-white text-lg">Vitrine de Builds de Référence</h3>
+                        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-1">
+                            <div class="flex justify-between font-bold text-white">
+                                <span>Camilla (Eau) — Vio / Destroy</span>
+                                <span class="text-amber-400">Par DeicideL</span>
+                            </div>
+                            <p class="text-slate-400">HP +28 500 • ATK +1 250 • DEF +620 • SPD +128 • CR 88% • CD 165%</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs space-y-1">
+                            <div class="flex justify-between font-bold text-white">
+                                <span>Byungchul (Feu) — Vio / Will</span>
+                                <span class="text-purple-300">Par Lyra_Akoya</span>
+                            </div>
+                            <p class="text-slate-400">HP +31 000 • ATK +1 120 • DEF +580 • SPD +136 • CR 85% • CD 160%</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 7 : TOURNOIS RTA & BADGES -->
+            <section id="tab-gamification" class="tab-content hidden space-y-6">
+                <div>
+                    <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Tournois RTA & Badges de Guilde</h1>
+                    <p class="text-sm text-slate-400 mt-1">Événements internes Akoya et distinctions débloquées.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-panel rounded-2xl p-6 space-y-3 text-xs">
+                        <h3 class="font-bold text-white text-lg">Tournoi Interne RTA — Règle "4★ & 2A Max"</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="space-y-2">
+                                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">DeicideL vs Kaelen → <strong class="text-emerald-400">DeicideL</strong></div>
+                                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">Lyra_Akoya vs Sora → <strong class="text-emerald-400">Lyra_Akoya</strong></div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-full p-4 rounded-xl bg-amber-500/10 border border-amber-500/40 text-center">
+                                    <div class="text-amber-400 font-bold uppercase mb-1">Finale à venir</div>
+                                    <div class="text-white font-bold text-sm">DeicideL vs Lyra_Akoya</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-6 space-y-3 text-xs">
+                        <h3 class="font-bold text-white text-lg">Badges Akoya</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/30">
+                                <i class="fa-solid fa-skull text-amber-400 mr-1.5"></i>
+                                <strong class="text-white">Fléau de Tartaros</strong>
+                                <p class="text-slate-400 mt-1">A participé au clear complet du Labyrinthe.</p>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-purple-500/30">
+                                <i class="fa-solid fa-shield text-purple-400 mr-1.5"></i>
+                                <strong class="text-white">Mur d'Akoya</strong>
+                                <p class="text-slate-400 mt-1">Défense 3DMC maintenue à +65% winrate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 8 : ANALYSEUR JSON (SWEX) -->
+            <section id="tab-json-analyzer" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Analyseur JSON (SWEX)</h1>
+                        <p class="text-sm text-slate-400 mt-1">Importez un export Summoners War Exporter (.json) ou chargez une simulation G2.</p>
+                    </div>
+                    <button onclick="loadDemoJson()" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs self-start">
+                        <i class="fa-solid fa-flask mr-1"></i> Charger Démo JSON G2
+                    </button>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-6 space-y-4">
+                    <input type="file" id="swex-file-input" accept=".json" onchange="handleJsonFile(event)" class="block w-full text-xs text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-obsidian hover:file:bg-amber-600 cursor-pointer">
+                    <div id="json-summary" class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                            <div class="text-xs text-slate-400">Invocateur</div>
+                            <div id="swex-wizard" class="text-lg font-bold text-white mt-1">En attente d'import</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                            <div class="text-xs text-slate-400">Monstres détectés</div>
+                            <div id="swex-units" class="text-lg font-bold text-amber-400 mt-1">—</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                            <div class="text-xs text-slate-400">Runes inventoriées</div>
+                            <div id="swex-runes" class="text-lg font-bold text-purple-300 mt-1">—</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONGLET 9 : SERVICES VIP & COACHING -->
+            <section id="tab-vip-services" class="tab-content hidden space-y-6">
+                <div>
+                    <h1 class="font-display text-2xl sm:text-3xl font-bold text-white">Services VIP & Coaching</h1>
+                    <p class="text-sm text-slate-400 mt-1">Accompagnement personnalisé pour les membres d'Akoya (audit de box, reruning et RTA).</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-slate-800">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-cyan-400">Pack 1</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Audit Box & Priorités</h3>
+                            <div class="text-2xl font-bold text-amber-400 mt-2">15 € <span class="text-xs text-slate-400 font-normal">/ session</span></div>
+                            <p class="text-xs text-slate-400 mt-3 leading-relaxed">Analyse de votre JSON SWEX, tri des monstres à monter, plan de farm Donjons/R5 et priorités de meules.</p>
+                        </div>
+                        <button onclick="bookVipService('Audit Box & Priorités (15 €)')" class="mt-6 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold">
+                            Réserver via Discord
+                        </button>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-amber-500/40 gold-glow">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-amber-400">Pack Populaire</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Reruning FRR Complet</h3>
+                            <div class="text-2xl font-bold text-amber-400 mt-2">30 € <span class="text-xs text-slate-400 font-normal">/ FRR</span></div>
+                            <p class="text-xs text-slate-400 mt-3 leading-relaxed">Optimisation complète de vos équipes de Siège 3DMC, défenses et speedtunes avant ou pendant le FRR.</p>
+                        </div>
+                        <button onclick="bookVipService('Reruning FRR Complet (30 €)')" class="mt-6 w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-obsidian text-xs font-bold">
+                            Réserver via Discord
+                        </button>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-purple-500/40">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-purple-300">Pack Avancé</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Coaching RTA & Draft</h3>
+                            <div class="text-2xl font-bold text-amber-400 mt-2">25 € <span class="text-xs text-slate-400 font-normal">/ 1h30</span></div>
+                            <p class="text-xs text-slate-400 mt-3 leading-relaxed">Revue de replays RTA en vocal Discord, construction de cores de draft et gestion du Pick & Ban.</p>
+                        </div>
+                        <button onclick="bookVipService('Coaching RTA & Draft (25 €)')" class="mt-6 w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold">
+                            Réserver via Discord
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        let currentUser = null;
+
+        const towers = [
+            { id: 1, name: 'Tour 1 — Bastion Nord', grade: '5★', def: 'Byungchul / Camilla / Adriana', focus: false },
+            { id: 2, name: 'Tour 2 — Porte Ouest', grade: '5★', def: 'Clara / Savanna / Kinki', focus: false },
+            { id: 3, name: 'Tour 3 — Porte Est', grade: '4★', def: 'Martina / Shaina / Triana', focus: false },
+            { id: 4, name: 'Tour 4 — Sanctuaire', grade: '5★', def: 'Gurkha / Molly / Theo', focus: false },
+            { id: 5, name: 'Tour 5 — Guet Sud', grade: '4★', def: 'Carcano / Vigor / Miho', focus: false },
+            { id: 6, name: 'Tour 6 — Rempart', grade: '5★', def: 'Nana / Abellio / Juno', focus: false },
+            { id: 7, name: 'Tour 7 — Citadelle', grade: '5★', def: 'Water Twin Angels / Wind MK', focus: true },
+            { id: 8, name: 'Tour 8 — Avant-Poste', grade: '4★', def: 'Susano / Garo / Mihyang', focus: false }
+        ];
+
+        const counters = [
+            { def: 'Byungchul / Camilla / Adriana', off: 'Odin / Lushen / Konamiya', wr: 92, note: 'Will sur tous, boost précis' },
+            { def: 'Clara / Savanna / Kinki', off: 'Leo / Feng Yan / Riley', wr: 89, note: 'Feng Yan en Vampire/Destroy' },
+            { def: 'Martina / Shaina / Triana', off: 'Khmun / Vigor / Skogul', wr: 95, note: 'Focus Martina en priorité' }
+        ];
+
+        const members = [
+            { name: 'DeicideL', role: 'Chef / Officier', swords: '10/10', lab: '15/15', status: 'Actif' },
+            { name: 'Lyra_Akoya', role: 'Officier', swords: '10/10', lab: '14/15', status: 'Actif' },
+            { name: 'Kaelen', role: 'Membre', swords: '9/10', lab: '13/15', status: 'Actif' },
+            { name: 'Sora', role: 'Membre', swords: '8/10', lab: '12/15', status: 'Absent ce WE' }
+        ];
+
+        const absences = [
+            { member: 'Sora', dates: '21 Nov - 22 Nov', reason: 'Week-end en famille' },
+            { member: 'Valkyr', dates: '22 Nov - 25 Nov', reason: 'Partiels universitaires' }
+        ];
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const colors = {
+                info: 'border-indigo-500 bg-slate-900 text-white',
+                success: 'border-emerald-500 bg-slate-900 text-emerald-200',
+                error: 'border-red-500 bg-red-950 text-red-200'
+            };
+            const el = document.createElement('div');
+            el.className = `pointer-events-auto border-l-4 ${colors[type] || colors.info} px-4 py-3 rounded-xl shadow-xl text-xs font-medium`;
+            el.textContent = message;
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 3500);
+        }
+
+        function appendDiscordFeed(channel, text, borderClass = 'border-amber-500') {
+            const feed = document.getElementById('discord-feed');
+            if (!feed) return;
+            const item = document.createElement('div');
+            item.className = `p-3 rounded-xl bg-slate-900/90 border-l-2 ${borderClass}`;
+            item.innerHTML = `<div class="flex justify-between text-slate-500 mb-1"><span class="font-semibold text-amber-400">${channel}</span><span>À l'instant</span></div><p class="text-slate-300">${text}</p>`;
+            feed.prepend(item);
+        }
+
+        function loginWithDiscord(profile) {
+            const alertBox = document.getElementById('access-denied-alert');
+            if (profile === 'guest') {
+                document.getElementById('denied-username').textContent = 'SpyGuilde#666';
+                alertBox.classList.remove('hidden');
+                showToast('Connexion bloquée : rôle @Membre-Akoya absent.', 'error');
+                return;
+            }
+            alertBox.classList.add('hidden');
+            currentUser = profile === 'officer'
+                ? { name: 'DeicideL', initials: 'DL', role: 'Officier / Chef', isOfficer: true }
+                : { name: 'Lyra_Akoya', initials: 'LA', role: 'Membre Vérifié', isOfficer: false };
+
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-avatar').textContent = currentUser.initials;
+            document.getElementById('user-role-badge').innerHTML = currentUser.isOfficer
+                ? '<i class="fa-solid fa-crown text-[10px]"></i> Officier / Chef'
+                : '<i class="fa-solid fa-shield text-[10px]"></i> Membre Vérifié';
+            document.getElementById('admin-lock-badge').textContent = currentUser.isOfficer
+                ? 'Mode Officier Actif'
+                : 'Lecture / Contribution Membre';
+
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-shell').classList.remove('hidden');
+            renderAll();
+            showToast(`Bienvenue ${currentUser.name} sur Akoya SW.`, 'success');
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('app-shell').classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('hidden');
+        }
+
+        function toggleMobileSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(sec => sec.classList.add('hidden'));
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const active = btn.dataset.tab === tabId;
+                btn.classList.toggle('bg-amber-500/15', active);
+                btn.classList.toggle('text-amber-400', active);
+                btn.classList.toggle('border', active);
+                btn.classList.toggle('border-amber-500/30', active);
+                btn.classList.toggle('text-slate-400', !active);
+            });
+
+            if (window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        }
+
+        function renderSiegeMap() {
+            const grid = document.getElementById('siege-map-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            towers.forEach(t => {
+                const gradeStyle = t.grade === '5★'
+                    ? 'bg-purple-500/15 text-purple-300 border-purple-500/40'
+                    : 'bg-cyan-500/15 text-cyan-300 border-cyan-500/40';
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.onclick = () => toggleFocus(t.id);
+                card.className = `text-left p-4 rounded-xl bg-slate-900/90 border transition-all ${t.focus ? 'border-amber-400 focus-tower bg-amber-500/5' : 'border-slate-800 hover:border-slate-600'}`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-2 mb-2">
+                        <span class="font-bold text-xs text-white">${t.name}</span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded border ${gradeStyle}">${t.grade}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 truncate">${t.def}</p>
+                    <div class="mt-3 text-[11px] font-semibold ${t.focus ? 'text-amber-400' : 'text-slate-500'}">
+                        ${t.focus ? '🎯 FOCUS ACTIF (cliquer pour retirer)' : 'Cliquer pour définir en Focus'}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleFocus(id) {
+            const tower = towers.find(t => t.id === id);
+            if (!tower) return;
+            tower.focus = !tower.focus;
+            renderSiegeMap();
+            showToast(`${tower.name} : ${tower.focus ? 'Focus activé' : 'Focus retiré'}.`, 'info');
+        }
+
+        function exportSiegePlan() {
+            const focused = towers.filter(t => t.focus).map(t => t.name);
+            const summary = focused.length ? focused.join(', ') : 'Aucune tour en focus';
+            appendDiscordFeed('#annonces-siege', `📌 Plan Siège mis à jour par <strong>${currentUser?.name || 'Officier'}</strong> : ${summary}.`, 'border-amber-500');
+            showToast('Plan de focus publié dans le flux Discord.', 'success');
+        }
+
+        function renderCounters() {
+            const list = document.getElementById('counters-list');
+            if (!list) return;
+            const query = (document.getElementById('counter-search')?.value || '').toLowerCase();
+            const filtered = counters.filter(c =>
+                c.def.toLowerCase().includes(query) ||
+                c.off.toLowerCase().includes(query) ||
+                c.note.toLowerCase().includes(query)
+            );
+            list.innerHTML = filtered.length ? filtered.map(c => `
+                <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <div class="text-xs text-slate-400">Défense : <strong class="text-white">${c.def}</strong></div>
+                        <div class="text-xs text-emerald-400 mt-1">Contre : <strong>${c.off}</strong></div>
+                        <div class="text-[11px] text-slate-500 mt-0.5">${c.note}</div>
+                    </div>
+                    <span class="self-start sm:self-center px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold text-xs">${c.wr}% WR</span>
+                </div>
+            `).join('') : '<p class="text-xs text-slate-500">Aucun contre correspondant.</p>';
+        }
+
+        function addCounter() {
+            const def = document.getElementById('new-def').value.trim();
+            const off = document.getElementById('new-off').value.trim();
+            const wr = parseInt(document.getElementById('new-wr').value, 10) || 85;
+            const note = document.getElementById('new-note').value.trim() || 'Validé en guilde';
+            if (!def || !off) {
+                showToast('Renseignez au moins la défense et l’équipe d’attaque.', 'error');
+                return;
+            }
+            counters.unshift({ def, off, wr, note });
+            document.getElementById('new-def').value = '';
+            document.getElementById('new-off').value = '';
+            document.getElementById('new-note').value = '';
+            renderCounters();
+            appendDiscordFeed('#base-de-contres', `⚔️ <strong>${def}</strong> → contre <strong>${off}</strong> (${wr}% WR).`, 'border-purple-500');
+            showToast('Contre ajouté à la base.', 'success');
+        }
+
+        function renderActivity() {
+            const tbody = document.getElementById('activity-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = members.map(m => `
+                <tr>
+                    <td class="py-3 px-2 font-semibold text-white">${m.name}</td>
+                    <td class="py-3 px-2 text-slate-400">${m.role}</td>
+                    <td class="py-3 px-2 text-amber-400 font-mono">${m.swords}</td>
+                    <td class="py-3 px-2 text-cyan-300 font-mono">${m.lab}</td>
+                    <td class="py-3 px-2"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-200">${m.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function renderAbsences() {
+            const box = document.getElementById('absences-list');
+            const kpi = document.getElementById('kpi-absences');
+            if (kpi) kpi.textContent = `${absences.length} absence(s) déclarée(s)`;
+            if (!box) return;
+            box.innerHTML = absences.map(a => `
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                        <strong class="text-white">${a.member}</strong>
+                        <span class="text-amber-400 ml-2">${a.dates}</span>
+                    </div>
+                    <span class="text-slate-400">${a.reason}</span>
+                </div>
+            `).join('');
+        }
+
+        function addAbsence() {
+            const member = document.getElementById('abs-member').value.trim() || 'Membre';
+            const dates = document.getElementById('abs-dates').value.trim();
+            const reason = document.getElementById('abs-reason').value.trim() || 'Indisponibilité';
+            if (!dates) {
+                showToast('Indiquez une période d’absence.', 'error');
+                return;
+            }
+            absences.unshift({ member, dates, reason });
+            document.getElementById('abs-dates').value = '';
+            document.getElementById('abs-reason').value = '';
+            renderAbsences();
+            appendDiscordFeed('#absences-guilde', `📅 Absence déclarée : <strong>${member}</strong> (${dates} — ${reason}).`, 'border-cyan-500');
+            showToast('Absence enregistrée.', 'success');
+        }
+
+        function calcSpeedtune() {
+            const base = parseFloat(document.getElementById('st-base-spd').value) || 96;
+            const bonus = parseFloat(document.getElementById('st-bonus-spd').value) || 0;
+            const lead = (parseFloat(document.getElementById('st-lead').value) || 0) / 100;
+            const atb = (parseFloat(document.getElementById('st-atb').value) || 30) / 100;
+            const totem = 0.15;
+
+            const effectiveBoosterSpd = base * (1 + lead + totem) + bonus;
+            const minNukeSpd = Math.ceil(effectiveBoosterSpd * (1 - atb));
+
+            document.getElementById('speedtune-result').innerHTML = `
+                <div>Vitesse effective du booster (Lead + Totem 15%) : <strong class="text-amber-400">${effectiveBoosterSpd.toFixed(1)} SPD</strong></div>
+                <div class="mt-1">Vitesse totale minimale conseillée pour éviter le cut (${(atb * 100).toFixed(0)}% ATB) : <strong class="text-emerald-400">${minNukeSpd} SPD</strong></div>
+            `;
+        }
+
+        function testDiscordWebhook() {
+            appendDiscordFeed('#alertes-guilde', `🔔 Test Webhook déclenché par <strong>${currentUser?.name || 'Admin'}</strong> — Connexion opérationnelle.`, 'border-emerald-500');
+            showToast('Notification test ajoutée au flux Discord.', 'success');
+        }
+
+        function handleJsonFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    const wizardName = data.wizard_info?.wizard_name || file.name;
+                    const unitCount = Array.isArray(data.unit_list) ? data.unit_list.length : 'N/A';
+                    const runeCount = Array.isArray(data.runes) ? data.runes.length : 'N/A';
+                    document.getElementById('swex-wizard').textContent = wizardName;
+                    document.getElementById('swex-units').textContent = unitCount;
+                    document.getElementById('swex-runes').textContent = runeCount;
+                    showToast('Fichier JSON SWEX analysé.', 'success');
+                } catch {
+                    showToast('Fichier JSON invalide.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function loadDemoJson() {
+            document.getElementById('swex-wizard').textContent = 'DeicideL_G2 (EU)';
+            document.getElementById('swex-units').textContent = '148 monstres (6★)';
+            document.getElementById('swex-runes').textContent = '892 runes';
+            showToast('Jeu de données de démonstration G2 chargé.', 'info');
+        }
+
+        function bookVipService(serviceName) {
+            appendDiscordFeed('#services-vip', `👑 Demande de réservation : <strong>${serviceName}</strong> par <strong>${currentUser?.name || 'Membre'}</strong>.`, 'border-amber-500');
+            showToast(`Demande enregistrée pour : ${serviceName}`, 'success');
+        }
+
+        function renderAll() {
+            renderSiegeMap();
+            renderCounters();
+            renderActivity();
+            renderAbsences();
+            calcSpeedtune();
+        }
+    </script>
+</body>
+</html>
